@@ -25,7 +25,7 @@
 
 size_t my_strlen(const char * str){
     
-    // It will contein the length of str.
+    // It will contain the length of str.
     size_t length;
     
     // Counts the number of intercations until it finds the character "/0".
@@ -122,7 +122,7 @@ char *my_strncpy(char *dest, const char *src, size_t n){
 * --------------------
 * Add the character string src into the character string dest at the end of it.
 * This overwrites the character "/0" at the end of dest and moves it after
-* adding src beeing the new end of the character string.
+* adding src being the new end of the character string.
 *
 *  dest: pointer of the character string where it will be added the src.
 *  str: pointer of the character string which will be copied in dest.
