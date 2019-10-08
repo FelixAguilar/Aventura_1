@@ -6,7 +6,7 @@
 *
 * Authors: Aguilar Ferrer, Felix Lluis
 *          Bennassar Polzin, Adrian
-*          Bueno Lopez, Alvaro
+*          Bueno Lopez, Alvaro
 *
 * Date:    01/10/2019.
 */
@@ -25,7 +25,7 @@
 
 size_t my_strlen(const char * str){
     
-    // it will contein the length of str.
+    // It will contein the length of str.
     size_t length;
     
     // Counts the number of intercations until it finds the character "/0".
@@ -36,56 +36,83 @@ size_t my_strlen(const char * str){
 /*
 * Function:  my_strcmp
 * --------------------
-* Computes the length of the character string that finishes with "/0".
+* Looks character by character if they are the same. If not it returns the 
+* subtraction of str1 with str2.
 *
-*  str: pointer of the character string.
+*  str1: pointer of the character string 1.
+*  str2: pointer of the character string 2.
 *
-*  returns: length of the character string.
+*  returns: 0 if its equal, negative if str1 is lower than str2 and positive if
+*           str1 is higer than str2.
 */
 
 int my_strcmp(const char *str1, const char *str2){
-    for(int i = 0; i < (my_strlen(str1) && (my_strlen(str2))); i++){
-        if((*(str1 + i)) != (*(str2 + i))){
-            return *(str1 + i) - *(str2 + i);
+
+    // Obtain the size of both character strings.
+    size_t sizeStr1 = my_strlen(str1);
+    size_t sizeStr2 = my_strlen(str2);
+
+    // Looks character by character.
+    for(int index = 0; index < (sizeStr1 && sizeStr2) ; index++){
+        
+        // If they are not equal returns the subtraction.
+        if((*(str1 + index)) != (*(str2 + index))){
+            return *(str1 + index) - *(str2 + index);
         }
     }
+    
+    // If they are equal returns 0.
     return 0;
 }
 
 /*
 * Function:  my_strcpy
 * --------------------
-* Computes the length of the character string that finishes with "/0".
+* Copies the char string src into the char string dest.
 *
-*  str: pointer of the character string.
+*  dest: pointer of the character string where it will be copied the src.
+*  str: pointer of the character string which will be copied in dest.
 *
-*  returns: length of the character string.
+*  returns: pointer of the character string dest.
 */
 
 char *my_strcpy(char *dest, const char *src){
-    size_t longitudSrc = my_strlen(src);
-    for(int i=0; i < longitudSrc; i++){
-        *(dest+i)= *(src+i);
+
+    // Get the lenght of src.
+    size_t sizeSrc = my_strlen(src);
+
+    // Copies src into dest.
+    for(int index=0; index < sizeSrc; index++){
+        *(dest+index)= *(src+index);
     }
-    *(dest+longitudSrc) = '\0';
+
+    // Add the final character '\0' into the end of the char string dest.
+    *(dest+sizeSrc) = '\0';
     return dest;
 }
 
 /*
 * Function:  my_strncpy
 * ---------------------
-* Computes the length of the character string that finishes with "/0".
+* Copies the char string src until the position marked with n into the char string dest.
 *
-*  str: pointer of the character string.
+*  dest: pointer of the character string where it will be copied the src.
+*  str: pointer of the character string which will be copied in dest.
 *
-*  returns: length of the character string.
+*  returns: pointer of the character string dest.
 */
 
 char *my_strncpy(char *dest, const char *src, size_t n){
-    size_t longitudSrc = my_strlen(src);
-    for(int i=0; (i < n)&&(i < longitudSrc); i++){
-        *(dest+i)= *(src+i);
+
+    // Get the lenght of src.
+    size_t sizeSrc = my_strlen(src);
+
+    // Copies src into dest until reaching n.
+    for(int index=0; (index < n)&&(index < sizeSrc); index++){
+        *(dest+index)= *(src+index);
     }
+
+    // Add the final character '\0' into the end of the char string dest.
     *(dest+n+1) = '\0';
     return dest;
 }
@@ -105,7 +132,7 @@ char *my_strncpy(char *dest, const char *src, size_t n){
 
 char *my_strcat(char *dest, const char *src){
     
-    // Obtein the size of both character strings.
+    // Obtain the size of both character strings.
     size_t sizeDest = my_strlen(dest);
     size_t sizeSrc = my_strlen(src);
     
