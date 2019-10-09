@@ -167,12 +167,12 @@ struct my_stack *my_stack_init (int size){
     struct my_stack *stack;
     stack = (struct my_stack *) malloc (sizeof(struct my_stack));
     
-    // If there is no memory available, error.
+    // If there is no memory available, then error.
     if (stack == NULL){
         printf("Error");
     }
     
-    // Adds the values for the stack.
+    // Adds the values for the header of the stack.
     else{
         stack->size = size;
         stack->first = NULL;
@@ -186,25 +186,35 @@ struct my_stack *my_stack_init (int size){
 * Insert a new node into the stack at the begining of it. Returns 0 if it went
 * well, -1 if there was an error.
 *
-*  stack: The pointer of the stack.
+*  stack: The pointer to the stack.
 *  data: The pointer to the data for the node.
 *
 *  returns: 0 or -1 depending of the result.
 */
 int my_stack_push (struct my_stack *stack, void *data){
+    
+    // It will check for the stack and size of data (init).
     int result = -1;
     if (stack != NULL) {
         if (stack->size > 0){
+            
+            // Allocates memory to the node.
             struct my_stack_node *node;
             node = (struct my_stack_node *) malloc(sizeof(struct my_stack_node)
-                                                   + stack->size);
+                   + stack->size);
+            
+            // If there is no memory available, then error.
             if (node == NULL) {
                 printf("Error.");
             }
+            
+            // Add the node into the begining of the stack by moving pointers.
             else{
                 node->data = data;
                 node->next = stack->first;
                 stack->first = node;
+                
+                // If it is correct it will return 0.
                 result = 0;
             }
         }
@@ -216,13 +226,27 @@ void *my_stack_pop (struct my_stack *stack){
     
 }
 
+/*
+* Function:  my_stack_len
+* -----------------------
+* Returns the number of nodes inside the stack (length of the stack).
+*
+*  stack: The pointer to the stack.
+*
+*  returns: the number of nodes inside the stack.
+*/
 int my_stack_len (struct my_stack *stack){
+    
+    // Inicialize the counter at 0 and checks if there is at least one node.
     int size = 0;
     if (stack->first != NULL){
+        
+        // Creates a node pointing to the first node.
         struct my_stack_node *pointer;
         pointer = stack->first;
-        size++;
-        while (pointer->next != NULL){
+        
+        // Goes over the stack adding 1 to size until it reaches the NULL.
+        while (pointer != NULL){
             size++;
             pointer = pointer->next;
         }
