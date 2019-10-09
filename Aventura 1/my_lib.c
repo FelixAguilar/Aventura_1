@@ -12,6 +12,8 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include "my_lib.h"
 
 /*
 * Function:  my_strlen
@@ -94,7 +96,8 @@ char *my_strcpy(char *dest, const char *src){
 /*
 * Function:  my_strncpy
 * ---------------------
-* Copies the char string src until the position marked with n into the char string dest.
+* Copies the char string src until the position marked with n into the char
+* string dest.
 *
 *  dest: pointer of the character string where it will be copied the src.
 *  str: pointer of the character string which will be copied in dest.
@@ -144,4 +147,67 @@ char *my_strcat(char *dest, const char *src){
     // Adds the ending character into the character string.
     *(dest + sizeDest + sizeSrc) = '\0';
     return dest;
+}
+
+/*
+* Function:  my_stack_init
+* ------------------------
+* Reserve space for the pointer to the top node of the stack and the size of the
+* data (both elements of the struct my_stack) and initialize those values with
+* NULL as the pointer value to the top node of the stack and with the size of
+* data passed to us as parameter.
+*
+*  size: size of the data that will be inside the stack.
+*
+*  returns: the pointer of the stack created.
+*/
+struct my_stack *my_stack_init (int size){
+    
+    // Inicialates stack and alocates memory to it.
+    struct my_stack *stack;
+    stack = (struct my_stack *) malloc (sizeof(struct my_stack));
+    
+    // If there is no memory available, error.
+    if (stack == NULL){
+        printf("Error");
+    }
+    //
+    else{
+        stack->size = size;
+        stack->first = NULL;
+    }
+    return stack;
+}
+
+int my_stack_push (struct my_stack *stack, void *data){
+    return 0;
+}
+
+void *my_stack_pop (struct my_stack *stack){
+
+}
+
+int my_stack_len (struct my_stack *stack){
+    int size = 0;
+    if (stack->first != NULL){
+        struct my_stack_node *pointer = stack->first;
+        while (pointer->next != NULL){
+            size++;
+            pointer = pointer->next;
+        }
+    }
+    return size;
+}
+
+int my_stack_write (struct my_stack *stack, char *filename){
+    return 0;
+}
+
+struct my_stack *my_stack_read (char *filename){
+    struct my_stack *stack;
+    return stack;
+}
+
+int my_stack_purge (struct my_stack *stack){
+    return 0;
 }
