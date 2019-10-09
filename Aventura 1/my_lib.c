@@ -152,10 +152,10 @@ char *my_strcat(char *dest, const char *src){
 /*
 * Function:  my_stack_init
 * ------------------------
-* Reserve space for the pointer to the top node of the stack and the size of the
-* data (both elements of the struct my_stack) and initialize those values with
-* NULL as the pointer value to the top node of the stack and with the size of
-* data passed to us as parameter.
+* Reserve space for the pointer for the top node of the stack and the size of
+* the data it will hold, and initialize those values with NULL as the pointer
+* value to the top node of the stack and with the size of data passed to it as
+* parameter.
 *
 *  size: size of the data that will be inside the stack.
 *
@@ -163,7 +163,7 @@ char *my_strcat(char *dest, const char *src){
 */
 struct my_stack *my_stack_init (int size){
     
-    // Inicialates stack and alocates memory to it.
+    // Inicialates stack and allocates memory to it.
     struct my_stack *stack;
     stack = (struct my_stack *) malloc (sizeof(struct my_stack));
     
@@ -171,7 +171,8 @@ struct my_stack *my_stack_init (int size){
     if (stack == NULL){
         printf("Error");
     }
-    //
+    
+    // Adds the values for the stack.
     else{
         stack->size = size;
         stack->first = NULL;
@@ -179,18 +180,48 @@ struct my_stack *my_stack_init (int size){
     return stack;
 }
 
+/*
+* Function:  my_stack_push
+* ------------------------
+* Insert a new node into the stack at the begining of it. Returns 0 if it went
+* well, -1 if there was an error.
+*
+*  stack: The pointer of the stack.
+*  data: The pointer to the data for the node.
+*
+*  returns: 0 or -1 depending of the result.
+*/
 int my_stack_push (struct my_stack *stack, void *data){
-    return 0;
+    int result = -1;
+    if (stack != NULL) {
+        if (stack->size > 0){
+            struct my_stack_node *node;
+            node = (struct my_stack_node *) malloc(sizeof(struct my_stack_node)
+                                                   + stack->size);
+            if (node == NULL) {
+                printf("Error.");
+            }
+            else{
+                node->data = data;
+                node->next = stack->first;
+                stack->first = node;
+                result = 0;
+            }
+        }
+    }
+    return result;
 }
 
 void *my_stack_pop (struct my_stack *stack){
-
+    
 }
 
 int my_stack_len (struct my_stack *stack){
     int size = 0;
     if (stack->first != NULL){
-        struct my_stack_node *pointer = stack->first;
+        struct my_stack_node *pointer;
+        pointer = stack->first;
+        size++;
         while (pointer->next != NULL){
             size++;
             pointer = pointer->next;
