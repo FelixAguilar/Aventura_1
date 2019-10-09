@@ -222,8 +222,28 @@ int my_stack_push (struct my_stack *stack, void *data){
     return result;
 }
 
+/*
+* Function:  my_stack_pop (struct my_stack *stack)
+* ------------------------
+* Deletes ("pops out") the node pointed by the "first" pointer of the stack that the user provides
+* via parameter.
+* topNode: node that will be deleted
+* returns: the pointer to the data of the deleted node.
+*/
 void *my_stack_pop (struct my_stack *stack){
-    
+    // if the stack given as parameter is empty, there is no node to delete
+     if(stack == NULL){
+         return NULL;
+     }
+     struct my_stack_node *topNode;
+     // we create a pointer to the node that will be deleted, that is, the "top node"
+     topNode = stack->first;
+     // the pointer "first" now points to the node that comes just after the "top node"
+     stack->first = topNode->next;
+     // we return a pointer to the data of the deleted node
+     return topNode->data;
+     // free allocated memory of the deleted node
+     free(topNode);
 }
 
 /*
@@ -263,6 +283,21 @@ struct my_stack *my_stack_read (char *filename){
     return stack;
 }
 
+/*
+* Function:  my_stack_purge (struct my_stack *stack)
+* ------------------------
+* Frees all memory that has been allocated with malloc() at any moment
+* n: number of nodes that have been freed
+* size: number of nodes contained in the given stack
+* returns: n
+*/
 int my_stack_purge (struct my_stack *stack){
-    return 0;
+    int n = 0;
+    int size = my_stack_len(stack);
+    while(n < size){
+          free(my_stack_pop(stack));
+          n++;
+    }
+    free(stack);
+    return n;
 }
