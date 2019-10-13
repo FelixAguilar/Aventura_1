@@ -1,11 +1,16 @@
 /*
-* my_lib.c
-*
+* Part 1
+* ------
 * Implementation of a set of functions analogous to the respective ones of
 * <string.h>. they are strlen, strcmp, strcpy, strncpy and strcat.
 *
+* Part 2
+* ------
+* Implementation of a set of functions to create and modify an stack of
+* elements and access propertys of the stack or save and load it from a file.
+*
 * Authors: Aguilar Ferrer, Felix Lluis
-*          Bennassar Polzin, Adrian
+*          Bennasar Polzin, Adrian
 *          Bueno Lopez, Alvaro
 *
 * Date:    01/10/2019.
@@ -14,6 +19,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "my_lib.h"
+
+/*
+* Part 1
+* ------
+*/
 
 /*
 * Function:  my_strlen
@@ -150,6 +160,11 @@ char *my_strcat(char *dest, const char *src){
 }
 
 /*
+* Part 2
+* ------
+*/
+
+/*
 * Function:  my_stack_init
 * ------------------------
 * Reserve space for the pointer for the top node of the stack and the size of
@@ -163,7 +178,7 @@ char *my_strcat(char *dest, const char *src){
 */
 struct my_stack *my_stack_init (int size){
     
-    // Inicialates stack and allocates memory to it.
+    // Initialize stack and allocates memory to it.
     struct my_stack *stack;
     stack = (struct my_stack *) malloc (sizeof(struct my_stack));
     
@@ -201,7 +216,7 @@ int my_stack_push (struct my_stack *stack, void *data){
             // Allocates memory to the node.
             struct my_stack_node *node;
             node = (struct my_stack_node *) malloc(sizeof(struct my_stack_node)
-                   + stack->size);
+                   /*+ stack->size*/);
             
             // If there is no memory available, then error.
             if (node == NULL) {
@@ -224,26 +239,34 @@ int my_stack_push (struct my_stack *stack, void *data){
 
 /*
 * Function:  my_stack_pop (struct my_stack *stack)
-* ------------------------
-* Deletes ("pops out") the node pointed by the "first" pointer of the stack that the user provides
-* via parameter.
-* topNode: node that will be deleted
-* returns: the pointer to the data of the deleted node.
+* ------------------------------------------------
+* Deletes ("pops out") the node pointed by the "first" pointer of the stack that
+* the user provides via parameter.
+*
+*  topNode: node that will be deleted.
+*
+*  returns: the pointer to the data of the deleted node.
 */
 void *my_stack_pop (struct my_stack *stack){
-    // if the stack given as parameter is empty, there is no node to delete
-     if(stack == NULL){
-         return NULL;
-     }
-     struct my_stack_node *topNode;
-     // we create a pointer to the node that will be deleted, that is, the "top node"
-     topNode = stack->first;
-     // the pointer "first" now points to the node that comes just after the "top node"
-     stack->first = topNode->next;
-     // we return a pointer to the data of the deleted node
-     return topNode->data;
-     // free allocated memory of the deleted node
-     free(topNode);
+    
+    // If the stack is empty, there is no node to delete.
+    if(stack->first != NULL){
+        struct my_stack_node *topNode;
+        
+        // It creates a pointer to the node that will be deleted.
+        topNode = stack->first;
+        stack->first = topNode->next;
+        
+        // Returns the pointer to the data of the deleted node.
+        void *data = topNode->data;
+        
+        // Free allocated memory of the deleted node.
+        free(topNode);
+        return data;
+    }
+    else{
+        return NULL;
+    }
 }
 
 /*
@@ -284,12 +307,14 @@ struct my_stack *my_stack_read (char *filename){
 }
 
 /*
-* Function:  my_stack_purge (struct my_stack *stack)
-* ------------------------
-* Frees all memory that has been allocated with malloc() at any moment
-* n: number of nodes that have been freed
-* size: number of nodes contained in the given stack
-* returns: n
+* Function:  my_stack_purge
+* -------------------------
+* It frees all memory that has been allocated with malloc() at any moment.
+*
+*  n: number of nodes that have been freed
+*  size: number of nodes contained in the given stack
+*
+*  returns: n
 */
 int my_stack_purge (struct my_stack *stack){
     int n = 0;
