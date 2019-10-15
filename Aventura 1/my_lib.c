@@ -321,12 +321,17 @@ struct my_stack *my_stack_read (char *filename){
 *  returns: n
 */
 int my_stack_purge (struct my_stack *stack){
-    int n = 0;
+    int numNodos = 0;
+    int bytesLiberados = 0;
     int size = my_stack_len(stack);
-    while(n < size){
-          free(my_stack_pop(stack));
-          n++;
+    while(numNodos < size){
+          numNodos++;
+          bytesLiberados += (stack->data)+(sizeof((node -> data)+(node -> next))); // size of data plus size of the 2 pointers(data and next) = 80
+          free(stack -> data);
+          free(stack -> node);
     }
+    bytesLiberados = bytesLiberados + sizeof(int) + sizeof(stack->first);
     free(stack);
-    return n;
+    return bytesLiberados;
 }
+
