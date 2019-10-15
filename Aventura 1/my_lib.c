@@ -303,6 +303,10 @@ int my_stack_write (struct my_stack *stack, char *filename){
 
 struct my_stack *my_stack_read (char *filename){
     struct my_stack *stack;
+    while((read(open(filename),filename,size)) != 0){
+       void *data = read(open(filename),filename,size);
+       my_stack_push(stack,data);
+    }
     return stack;
 }
 
